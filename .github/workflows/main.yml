@@ -5,6 +5,7 @@ on:
     branches:
       - main
   schedule:
+      # Here you can change how often your backup runs. See https://crontab.guru/examples.html
       - cron: "0 * * * *"
 
 jobs:
@@ -38,19 +39,6 @@ jobs:
           BACKUP_JSON: true
           BACKUP_MARKDOWN: true
 
-      - name: Log Timestamp
-        run: |
-          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/ideapply/roam2github-actions.git
-          cd roam2github-actions
-          echo "Backup performed on $(date)" >> backup_log.txt
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add backup_log.txt
-          git commit -m "Update backup log"
-          git push
-        env:
-          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      
       - name: Commit Changes
         uses: everruler12/git-auto-commit-action@latest
         with:
