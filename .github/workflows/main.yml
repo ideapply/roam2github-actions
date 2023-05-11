@@ -5,7 +5,6 @@ on:
     branches:
       - main
   schedule:
-      # Here you can change how often your backup runs. See https://crontab.guru/examples.html
       - cron: "50 * * * *"
 
 jobs:
@@ -39,6 +38,14 @@ jobs:
           BACKUP_JSON: true
           BACKUP_MARKDOWN: true
 
+      - name: Log Timestamp
+        run: |
+          echo "Backup performed on $(date)" >> ./backup_log.txt
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./backup_log.txt
+          git commit -m "Update backup log" || echo "No changes to commit"
+      
       - name: Commit Changes
         uses: everruler12/git-auto-commit-action@latest
         with:
