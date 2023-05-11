@@ -40,7 +40,7 @@ jobs:
 
       - name: Log Timestamp
         run: |
-          git clone https://github.com/ideapply/roam2github-actions.git
+          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/ideapply/roam2github-actions.git
           cd roam2github-actions
           echo "Backup performed on $(date)" >> backup_log.txt
           git config --local user.email "action@github.com"
