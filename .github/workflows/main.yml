@@ -40,11 +40,17 @@ jobs:
 
       - name: Log Timestamp
         run: |
-          echo "Backup performed on $(date)" >> ./backup_log.txt
+          echo "Backup performed on $(date)" >> backup_log.txt
+      
+      - name: Commit log
+        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add ./backup_log.txt
-          git commit -m "Update backup log" || echo "No changes to commit"
+          git add backup_log.txt
+          git commit -m "Update backup log"
+          git push
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       
       - name: Commit Changes
         uses: everruler12/git-auto-commit-action@latest
